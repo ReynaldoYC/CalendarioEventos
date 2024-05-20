@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         })
 
   var calendar = new FullCalendar.Calendar(calendar, {
-    initialView: "dayGridMonth",
+    initialView: "timeGridWeek",
     locale: "es",
     allDaySlot: false,
     slotMinTime: '06:00:00',
