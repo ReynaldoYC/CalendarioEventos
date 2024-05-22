@@ -65,8 +65,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     dateClick: function (info) {
       resetModal();
       const fechaAdd = info.dateStr;
-      console.log(fechaAdd);
-      document.getElementById("start").value = info.dateStr;
+      const fechaHora = info.date;
+      const fechaHoraLocal = fechaHora.toISOString().slice(10, 16);
+      document.getElementById("start").value = fechaAdd.length <= 10 ? fechaAdd+fechaHoraLocal : fechaAdd.slice(0, 16);
       document.getElementById("titulo").textContent = "Registrar Evento";
       document.getElementById("btnUpdate").style.display = "none";
       document.getElementById("btnDelete").style.display = "none";
@@ -77,31 +78,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       // aqui podremos mostrar mas data del evento
 
       const event = info.event;
-      resetModal();
+      resetModal(); 
+      document.getElementById('id').value = event.id;
       document.getElementById("title").value = event.title;
-      document.getElementById("start").value = event.startStr;
+      document.getElementById("start").value = event.startStr.slice(0,16);
       document.getElementById("color").value = event.backgroundColor;
       document.getElementById("titulo").textContent = "Editar Evento";
       document.getElementById("btnAction").style.display = "none";
       document.getElementById("btnUpdate").style.display = "inline-block";  
       document.getElementById("btnDelete").style.display = "inline-block";
-
-      document.getElementById("btnUpdate").addEventListener('click', function(){
-        updateEventDB(
-          event.id,
-          document.getElementById("title").value,
-          document.getElementById("start").value,
-          document.getElementById("color").value,
-          calendar
-        );
-        formulario.reset();
-        myModal.hide();
-      });
-      document.getElementById("btnDelete").addEventListener('click', function(){
-        deleteEventDB(event.id, calendar);
-        formulario.reset();
-        myModal.hide();
-      });
       myModal.show();
     }
   });
@@ -130,6 +115,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.error('Error agregando evento', error);
     }
   });
+  document.getElementById("btnUpdate").addEventListener('click', function(){
+    const id = document.getElementById('id').value;
+    const title = document.getElementById("title").value;
+    const fecha = document.getElementById("start").value;
+    const color = document.getElementById("color").value;
+    updateEventDB(id, title, fecha, color, calendar);
+    myModal.hide();
+  });
+  document.getElementById("btnDelete").addEventListener('click', function(){
+    const id = document.getElementById('id').value;
+    deleteEventDB(id, calendar);
+    myModal.hide();
+  });
 });
 
 function generateUniqueId() {
@@ -157,12 +155,13 @@ async function addEventDB(id, title, fecha, color, calendar) {
 }
 async function updateEventDB(id, title, fecha, color, calendar){
   try {
+    console.log(id);
     await updateDoc(doc(db, 'Eventos', id), {
       title: title,
       start: fecha,
       color: color
     });
-    console.log("evento actualizado con id: ", id);
+    
     const event = calendar.getEventById(id);
     if(event){
       event.setProp('title', title);
@@ -179,7 +178,11 @@ async function deleteEventDB(id, calendar){
     console.log("Evento eliminado con ID: ", id);
 
     const event = calendar.getEventById(id);
-    event.remove();
+    if(event){
+      event.remove();
+    } else {
+      console.warn("el evento no existe en el calenjdario");
+    }
   } catch (error) {
     console.error("Error eliminando evento: ", error);
   }
