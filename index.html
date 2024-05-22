@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0", shrink-to-fit=no" />
     <title>Administrador de Eventos</title>
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/bootstrap.min.css">
@@ -38,7 +38,7 @@
         aria-labelledby="staticBackdrop" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header bg-black text-white">
                     <h5 class="modal-title" id="titulo"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
@@ -48,16 +48,73 @@
                         <div id="alert" class="alert alert-danger" style="display: none;"></div>
                         <div class="form-floating mb-3">
                             <input type="hidden" id="id" name="id">
-                            <input type="text" class="form-control" id="title">
-                            <label for="title" class="form-label">Evento</label>
+                            <input type="text" class="form-control" id="title" placeholder="Evento">
+                            <label for="title" class="form-label">Evento:</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="datetime-local" class="form-control" id="start">
-                            <label for="start" class="form-label">Fecha y Hora</label>
+                            <input type="text" class="form-control" id="contractor" placeholder="Contrante">
+                            <label for="contractor" class="form-label">Contrante:</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="color" class="form-control" id="color">
-                            <label for="color" class="form-label">Color</label>
+                            <input type="datetime-local" class="form-control" id="start" placeholder="Fecha y hora">
+                            <label for="start" class="form-label">Fecha y Hora:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="timeContracted" aria-label="Tiempo contratado">
+                              <option value="00:30:00" selected>30 min</option>
+                              <option value="00:45:00">45 min</option>
+                              <option value="01:00:00">1 hora</option>
+                            </select>
+                            <label for="timeContracted">Tiempo contratado:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="address" placeholder="Dirección">
+                            <label for="address" class="form-label">Dirección:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="mobility" placeholder="Movilidad" value="Mariachi">
+                            <label for="mobility" class="form-label" >Movilidad a cargo de:</label>
+                        </div>
+                        
+                        <div class="mb-3 row align-items-center">
+                            <div class="col-auto">
+                                <label for="montoTotal" class="col-form-label">Monto Total</label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="input-group">
+                                    <span class="input-group-text">S/.</span>
+                                    <input type="number" class="form-control" id="montoTotal" aria-label="Monto Total">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row align-items-center">
+                            <div class="col-auto">
+                                <label for="montoTotal" class="col-form-label">A cuenta:</label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="input-group">
+                                    <span class="input-group-text">S/.</span>
+                                    <input type="number" class="form-control" id="montoTotal" aria-label="Monto Total">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row align-items-center">
+                            <div class="col-auto">
+                                <label for="montoTotal" class="col-form-label">Saldo:</label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="input-group">
+                                    <span class="input-group-text">S/.</span>
+                                    <input type="number" class="form-control" id="montoTotal" aria-label="Monto Total" readonly >
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Agrega las Observaciones" id="remark" style="height: 100px"></textarea>
+                            <label for="remark">Observaciones:</label>
                         </div>
                     </div>
                     <div class="modal-footer">
