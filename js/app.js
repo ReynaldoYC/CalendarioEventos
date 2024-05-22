@@ -23,8 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       hour12: true 
     },
     dayHeaderFormat: { 
-      weekday: 'long', 
-      day: 'numeric' 
+      weekday: 'long'
     },
     views: {
       timeGridWeek: {
@@ -41,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     },
     headerToolbar: {
-      left: "prev, today, next",
+      left: "prev,today,next",
       center: "title",
       right: "dayGridMonth, timeGridWeek, timeGridDay, listWeek",
     },
@@ -64,20 +63,21 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     },
     dateClick: function (info) {
-    console.log(info.dateStr);
-    const fechaAdd = info.dateStr;
-    console.log(fechaAdd);
-    document.getElementById("start").value = info.dateStr;
-    document.getElementById("titulo").textContent = "Registrar Evento";
-    document.getElementById("btnUpdate").style.display = "none";
-    document.getElementById("btnDelete").style.display = "none";
-    myModal.show();
+      resetModal();
+      const fechaAdd = info.dateStr;
+      console.log(fechaAdd);
+      document.getElementById("start").value = info.dateStr;
+      document.getElementById("titulo").textContent = "Registrar Evento";
+      document.getElementById("btnUpdate").style.display = "none";
+      document.getElementById("btnDelete").style.display = "none";
+      myModal.show();
     },
     eventClick: function(info) {
       // Lógica para manejar el clic en un evento
       // aqui podremos mostrar mas data del evento
 
       const event = info.event;
+      resetModal();
       document.getElementById("title").value = event.title;
       document.getElementById("start").value = event.startStr;
       document.getElementById("color").value = event.backgroundColor;
@@ -94,10 +94,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           document.getElementById("color").value,
           calendar
         );
+        formulario.reset();
         myModal.hide();
       });
       document.getElementById("btnDelete").addEventListener('click', function(){
         deleteEventDB(event.id, calendar);
+        formulario.reset();
         myModal.hide();
       });
       myModal.show();
@@ -183,3 +185,10 @@ async function deleteEventDB(id, calendar){
   }
 }
 
+function resetModal() {
+  document.getElementById("formulario").reset();
+  document.getElementById("alert").style.display = "none";
+  document.getElementById("btnAction").style.display = "inline-block";
+  document.getElementById("btnUpdate").style.display = "none";
+  document.getElementById("btnDelete").style.display = "none";
+}
