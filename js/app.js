@@ -4,7 +4,6 @@ import { auth, db } from "./firebase.js";
 
 const myModal = new bootstrap.Modal(document.getElementById("myModal"));
 let formulario = document.getElementById("formulario");
-let request_calendar = "events.json";
 
 document.addEventListener("DOMContentLoaded", async function () {
   var calendar = document.getElementById("calendar");
@@ -67,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               return {
                   title: eventData.title,
                   start: eventData.start,
-                  end: eventData.end
+                  color: eventData.color
               };
           });
           successCallback(events);
@@ -126,10 +125,6 @@ async function addEvent(title, fecha, color) {
         color: color
     });
     console.log('Evento agregado con ID: ', docRef.id);
-    
-    document.getElementById("title").value = '';
-document.getElementById("start").value = '';
-document.getElementById("color").value= '';
 
 } catch (error) {
     console.error('Error adding event: ', error);
