@@ -11,7 +11,7 @@ const alertDiv = document.getElementById('alert');
 document.addEventListener("DOMContentLoaded", async function () {
   const calendarEl = document.getElementById("calendar");
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
+    initialView: "timeGridWeek",
     locale: "es",
     allDaySlot: false,
     slotMinTime: '06:00:00',
@@ -19,30 +19,49 @@ document.addEventListener("DOMContentLoaded", async function () {
     height: '100%',
     slotLabelFormat: { 
       hour: 'numeric', 
-      minute: '2-digit', 
       hour12: true 
+    },
+    slotLabelClassNames: {
+      hour: 'custom-hour-class'
     },
     dayHeaderFormat: { 
       weekday: 'long'
     },
     views: {
       timeGridWeek: {
-        titleFormat: { month: 'long' }
+        titleFormat: { month: 'long', day: 'numeric' },
+        dayHeaderFormat: { weekday: 'long', day: 'numeric' }
       },
       dayGridMonth: {
         titleFormat: { month: 'long' }
       },
       timeGridDay: {
-        titleFormat: { month: 'long' }
+        titleFormat: { month: 'long' },
+        dayHeaderFormat: { weekday: 'long', day: 'numeric' }
       },
       listWeek: {
-        titleFormat: { day: 'numeric', month: 'long', omitCommas: true } // Muestra el rango de fechas con el mes completo, sin el año
+        titleFormat: { day: 'numeric', month: 'long', omitCommas: true } 
       }
+    },
+    buttonText: {
+      today:    'HOY',
+      month:    'MES',
+      week:     'SEMANA',
+      day:      'DÍA',
+      list:     'LISTA'
     },
     headerToolbar: {
       left: "prev,today,next",
-      center: "title",
-      right: "dayGridMonth, timeGridWeek, timeGridDay, listWeek",
+      center: "",
+      right: "title",
+    },
+    customButtons: {
+      titleButton: {
+        text: 'title',
+        click: function() {
+          // Empty function as a placeholder
+        }
+      }
     },
     events: async function(fetchInfo, successCallback, failureCallback) {
       try {
@@ -74,9 +93,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       myModal.show();
     },
     eventClick: function(info) {
-      // Lógica para manejar el clic en un evento
-      // aqui podremos mostrar mas data del evento
-
       const event = info.event;
       resetModal(); 
       document.getElementById('id').value = event.id;
@@ -92,7 +108,29 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   calendar.render();
+  // Set the initial title
+  const viewButtons = document.querySelectorAll('.btn-group button');
 
+viewButtons.forEach(button => {
+  button.addEventListener('click', function (event) {
+    const viewName = event.target.getAttribute('data-view');
+    calendar.changeView(viewName);
+  });
+  const calendarTitleEl = document.getElementById('calendar-title'); // Suponiendo que tienes un elemento con ID "calendarTitle"
+
+calendar.on('datesSet', function () {
+  const viewTitle = calendar.view.title;
+  calendarTitleEl.textContent = viewTitle;
+});
+
+});
+  document.querySelector('.dropdown-menu').addEventListener('click', function (e) {
+    if (e.target.matches('.dropdown-item')) {
+      e.preventDefault();
+      const view = e.target.getAttribute('data-view');
+      calendar.changeView(view);
+    }
+  });
   formulario.addEventListener("submit", function (e) {
     e.preventDefault();
     const title = document.getElementById("title").value;
@@ -190,6 +228,7 @@ async function deleteEventDB(id, calendar){
 
 function resetModal() {
   document.getElementById("formulario").reset();
+  document.getElementById('id').value = '';
   document.getElementById("alert").style.display = "none";
   document.getElementById("btnAction").style.display = "inline-block";
   document.getElementById("btnUpdate").style.display = "none";

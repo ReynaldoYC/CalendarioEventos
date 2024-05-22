@@ -12,6 +12,19 @@
 
 <body>
     <h1 class="text-center">Calendario de Eventos</h1>
+    <div class="dropdown">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          Vistas del calendario
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" data-view="timeGridWeek">Semana</a></li>
+          <li><a class="dropdown-item" data-view="dayGridMonth">Mes</a></li>
+          <li><a class="dropdown-item" data-view="timeGridDay">Día</a></li>
+          <li><a class="dropdown-item" data-view="listWeek">Lista</a></li>
+        </ul>
+      </div>
+      
+      <h1 id="calendar-title"></h1>
     <div class="container-fluid h-100">
         <div class="row flex-grow-1 h-100">
             <div class="col-12 h-100">
@@ -20,6 +33,7 @@
 
         </div>
     </div>
+    
     <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdrop" aria-hidden="true">
         <div class="modal-dialog">
@@ -33,7 +47,7 @@
                     <div class="modal-body">
                         <div id="alert" class="alert alert-danger" style="display: none;"></div>
                         <div class="form-floating mb-3">
-                            <input type="text" id="id" name="id">
+                            <input type="hidden" id="id" name="id">
                             <input type="text" class="form-control" id="title">
                             <label for="title" class="form-label">Evento</label>
                         </div>

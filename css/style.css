@@ -27,3 +27,77 @@ html, body {
     text-decoration: none;
     color: #000;
 }
+.custom-hour-class {
+    color: red;
+}
+.fc .fc-timegrid-axis-cushion {
+    border: none;
+}
+
+
+.fc-timegrid-axis-cushion {
+    font-weight: bold;
+}
+/* Mejora el aspecto responsive */
+#calendar {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.modal-content {
+    max-width: 100%;
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        width: 95%;
+        margin: 10px auto;
+    }
+}
+
+/* Estilo para reducir el tamaño de los botones del calendario */
+.fc .fc-button {
+    padding: 0.3em 0.6em;
+    font-size: 0.875em;
+}
+.fc-daygrid-day-number{
+    text-decoration: none;
+    color: #000;
+}
+.dropdown {
+    margin-left: .7em;
+
+}
+
+/* Ajusta el tamaño de las fuentes para que sea más pequeño en dispositivos pequeños */
+@media (max-width: 576px) {
+    .fc .fc-toolbar-title {
+        font-size: 1.1em;
+    }
+    .fc .fc-button {
+        font-size: 0.75em;
+    }
+    .fc .fc-col-header-cell-cushion {
+        font-size: 0.75em;
+    }
+    .fc-col-header-cell-cushion{
+        color: #ffffff;
+    }
+    .fc-col-header-cell-cushion::first-letter{ 
+        color: #000;
+        margin-left: 1rem;
+    }
+    .dropdown button {
+        font-size: .8rem;
+    }
+    .dropdown-menu li {
+        font-size: .8rem;
+    }
+    .fc-timegrid-slot-label-cushion {
+        font-size: small;
+        padding: 0;
+        margin: 0;
+    }
+    
+
+}
