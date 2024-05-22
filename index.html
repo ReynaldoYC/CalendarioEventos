@@ -31,6 +31,7 @@
                 </div>
                 <form id="formulario">
                     <div class="modal-body">
+                        <div id="alert" class="alert alert-danger" style="display: none;"></div>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="title">
                             <label for="title" class="form-label">Evento</label>
@@ -46,9 +47,10 @@
                         
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-warning">Cancelar</button>
-                        <button class="btn btn-danger">Eliminar</button>
+                        <button class="btn btn-warning" type="button" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-danger" id="btnDelete" type="button">Eliminar</button>
                         <button class="btn btn-info" id="btnAction" type="submit">Registrar</button>
+                        <button class="btn btn-success" id="btnUpdate" type="button" style="display: none;">Actualizar</button>
                     </div>
                 </form>
             </div>

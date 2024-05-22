@@ -1,11 +1,12 @@
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"
-import { getDocs, getFirestore, collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"
+import { getDocs, getFirestore, doc, collection, setDoc, addDoc, updateDoc, deleteDoc, Timestamp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"
 import { auth, db } from "./firebase.js";
 
 
 
 const myModal = new bootstrap.Modal(document.getElementById("myModal"));
 let formulario = document.getElementById("formulario");
+const alertDiv = document.getElementById('alert');
 
 document.addEventListener("DOMContentLoaded", async function () {
   const calendarEl = document.getElementById("calendar");
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     allDaySlot: false,
     slotMinTime: '06:00:00',
     slotMaxTime: '25:00:00',
+    height: '100%',
     slotLabelFormat: { 
       hour: 'numeric', 
       minute: '2-digit', 
@@ -43,23 +45,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       center: "title",
       right: "dayGridMonth, timeGridWeek, timeGridDay, listWeek",
     },
-    dateClick: function (info) {
-      console.log(info.dateStr);
-      const fechaAdd = info.dateStr;
-      console.log(fechaAdd);
-      document.getElementById("start").value = info.dateStr;
-      document.getElementById("titulo").textContent = "Registrar Evento";
-      myModal.show();
-    },
     events: async function(fetchInfo, successCallback, failureCallback) {
       try {
           const querySnapshot = await getDocs(collection(db, 'Eventos'));
           const events = querySnapshot.docs.map(doc => {
               const eventData = doc.data();
               return {
-                  title: eventData.title,
-                  start: eventData.start,
-                  color: eventData.color
+                id: doc.id,
+                title: eventData.title,
+                start: eventData.start,
+                color: eventData.color
               };
           });
           successCallback(events);
@@ -67,44 +62,89 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error('Error getting events: ', error);
           failureCallback(error);
       }
-  },
-  eventClick: function(info) {
+    },
+    dateClick: function (info) {
+    console.log(info.dateStr);
+    const fechaAdd = info.dateStr;
+    console.log(fechaAdd);
+    document.getElementById("start").value = info.dateStr;
+    document.getElementById("titulo").textContent = "Registrar Evento";
+    document.getElementById("btnUpdate").style.display = "none";
+    document.getElementById("btnDelete").style.display = "none";
+    myModal.show();
+    },
+    eventClick: function(info) {
       // Lógica para manejar el clic en un evento
       // aqui podremos mostrar mas data del evento
-      console.log(info.event.title);
-  }
+
+      const event = info.event;
+      document.getElementById("title").value = event.title;
+      document.getElementById("start").value = event.startStr;
+      document.getElementById("color").value = event.backgroundColor;
+      document.getElementById("titulo").textContent = "Editar Evento";
+      document.getElementById("btnAction").style.display = "none";
+      document.getElementById("btnUpdate").style.display = "inline-block";  
+      document.getElementById("btnDelete").style.display = "inline-block";
+
+      document.getElementById("btnUpdate").addEventListener('click', function(){
+        updateEventDB(
+          event.id,
+          document.getElementById("title").value,
+          document.getElementById("start").value,
+          document.getElementById("color").value,
+          calendar
+        );
+        myModal.hide();
+      });
+      document.getElementById("btnDelete").addEventListener('click', function(){
+        deleteEventDB(event.id, calendar);
+        myModal.hide();
+      });
+      myModal.show();
+    }
   });
+
   calendar.render();
+
   formulario.addEventListener("submit", function (e) {
     e.preventDefault();
     const title = document.getElementById("title").value;
     const fecha = document.getElementById("start").value;
     const color = document.getElementById("color").value;
     
-    if (title == "" || fecha == "" || color == "") {
-      console.log("Todos los datos son obligatarios");
-    } else {
-      addEventDB(title, fecha, color, calendar);
+    if (!title || !fecha || !color ) {
+      alertDiv.textContent = "Por favor, complete todos los campos.";
+      alertDiv.style.display = "block";
+      return;
+    } 
+    alertDiv.style.display = "none";
+    // creamos un id 
+    const eventId = generateUniqueId();
+    try {
+      addEventDB(eventId, title, fecha, color, calendar);
+      formulario.reset();
+      myModal.hide();
+    } catch (error) {
+      console.error('Error agregando evento', error);
     }
-    document.getElementById("title").value = '';
-    document.getElementById("start").value = '';
-    document.getElementById("color").value = '';
-    myModal.hide();
   });
 });
 
+function generateUniqueId() {
+  return new Date().getTime().toString() + '_' + Math.random().toString(36).substring(2, 15);
+}
 
-
-async function addEventDB(title, fecha, color, calendar) {
+async function addEventDB(id, title, fecha, color, calendar) {
   try {
-    const docRef = await addDoc(collection(db, 'Eventos'), {
+    const docRef = await setDoc(doc(db, 'Eventos', id), {
         title: title,
         start: fecha,
         color: color
     });
     
-    console.log('Evento agregado con ID: ', docRef.id);
+    console.log('Evento agregado con ID: ', id);
     calendar.addEvent({
+      id: id,
       title: title,
       start: fecha,
       color: color
@@ -112,5 +152,34 @@ async function addEventDB(title, fecha, color, calendar) {
   } catch (error) {
     console.error('Error adding event: ', error);
   }
-} 
+}
+async function updateEventDB(id, title, fecha, color, calendar){
+  try {
+    await updateDoc(doc(db, 'Eventos', id), {
+      title: title,
+      start: fecha,
+      color: color
+    });
+    console.log("evento actualizado con id: ", id);
+    const event = calendar.getEventById(id);
+    if(event){
+      event.setProp('title', title);
+      event.setStart(fecha);
+      event.setProp('color', color);
+    }
+  } catch (error) {
+    console.log("Error actualizando evento: ", error);
+  }
+}
+async function deleteEventDB(id, calendar){
+  try {
+    await deleteDoc(doc(db,"Eventos", id));
+    console.log("Evento eliminado con ID: ", id);
+
+    const event = calendar.getEventById(id);
+    event.remove();
+  } catch (error) {
+    console.error("Error eliminando evento: ", error);
+  }
+}
 
