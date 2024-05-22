@@ -2,22 +2,15 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.10.0/fi
 import { getDocs, getFirestore, collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"
 import { auth, db } from "./firebase.js";
 
+
+
 const myModal = new bootstrap.Modal(document.getElementById("myModal"));
 let formulario = document.getElementById("formulario");
 
 document.addEventListener("DOMContentLoaded", async function () {
-  var calendar = document.getElementById("calendar");
-  const querySnapshot = await getDocs(collection(db,'Eventos'));
-  const data = querySnapshot.docs;  
-
-  const datadb = [];
-  data.forEach( doc => {
-    const evento = doc.data();
-    datadb.push(evento);
-  })
-
-  var calendar = new FullCalendar.Calendar(calendar, {
-    initialView: "timeGridWeek",
+  const calendarEl = document.getElementById("calendar");
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: "dayGridMonth",
     locale: "es",
     allDaySlot: false,
     slotMinTime: '06:00:00',
@@ -53,11 +46,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     dateClick: function (info) {
       console.log(info.dateStr);
       const fechaAdd = info.dateStr;
+      console.log(fechaAdd);
       document.getElementById("start").value = info.dateStr;
       document.getElementById("titulo").textContent = "Registrar Evento";
       myModal.show();
     },
-    /* events: datadb */
     events: async function(fetchInfo, successCallback, failureCallback) {
       try {
           const querySnapshot = await getDocs(collection(db, 'Eventos'));
@@ -77,56 +70,47 @@ document.addEventListener("DOMContentLoaded", async function () {
   },
   eventClick: function(info) {
       // Lógica para manejar el clic en un evento
+      // aqui podremos mostrar mas data del evento
       console.log(info.event.title);
   }
   });
   calendar.render();
-  
+  formulario.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const title = document.getElementById("title").value;
+    const fecha = document.getElementById("start").value;
+    const color = document.getElementById("color").value;
+    
+    if (title == "" || fecha == "" || color == "") {
+      console.log("Todos los datos son obligatarios");
+    } else {
+      addEventDB(title, fecha, color, calendar);
+    }
+    document.getElementById("title").value = '';
+    document.getElementById("start").value = '';
+    document.getElementById("color").value = '';
+    myModal.hide();
+  });
 });
 
-formulario.addEventListener("submit", function (e) {
-  e.preventDefault();
-  const title = document.getElementById("title").value;
-  const fecha = document.getElementById("start").value;
-  const color = document.getElementById("color").value;
-  
-  if (title == "" || fecha == "" || color == "") {
-    console.log("Todos los datos son obligatarios");
-  } else {
-    addEvent(title, fecha, color);
-  }
-});
-/* window.agregarEvento = async function() {
-    const title = document.getElementById('eventTitle').value;
-    const start = new Date(document.getElementById('eventStart').value);
-    const end = new Date(document.getElementById('eventEnd').value);
-    
-    try {
-        const docRef = await addDoc(collection(db, 'events'), {
-            title: title,
-            start: Timestamp.fromDate(start),
-            end: Timestamp.fromDate(end)
-        });
-        console.log('Evento agregado con ID: ', docRef.id);
-        
-        document.getElementById('eventTitle').value = '';
-        document.getElementById('eventStart').value = '';
-        document.getElementById('eventEnd').value = '';
-    } catch (error) {
-        console.error('Error adding event: ', error);
-    }
-} */
-async function addEvent(title, fecha, color) {
-  console.log(title,fecha,color);
+
+
+async function addEventDB(title, fecha, color, calendar) {
   try {
     const docRef = await addDoc(collection(db, 'Eventos'), {
         title: title,
         start: fecha,
         color: color
     });
+    
     console.log('Evento agregado con ID: ', docRef.id);
-
-} catch (error) {
+    calendar.addEvent({
+      title: title,
+      start: fecha,
+      color: color
+    });
+  } catch (error) {
     console.error('Error adding event: ', error);
-}
+  }
 } 
+
