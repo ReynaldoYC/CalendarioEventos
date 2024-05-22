@@ -1,0 +1,29 @@
+html, body {
+    height: 95%;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+#calendar {
+    flex-grow: 1;
+    overflow: auto; 
+    height: 100%;
+    
+}
+/* Oculta las barras de desplazamiento en Chrome, Safari y Edge */
+#calendar::-webkit-scrollbar {
+    display: none;
+}
+.fc-toolbar-title {
+    text-transform: uppercase;
+}
+.fc-col-header-cell-cushion {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #000;
+}
