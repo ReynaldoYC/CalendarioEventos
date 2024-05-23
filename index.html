@@ -67,7 +67,12 @@
                             <select class="form-select" id="timeContracted" aria-label="Tiempo contratado">
                               <option value="00:30:00" selected>30 min</option>
                               <option value="00:45:00">45 min</option>
-                              <option value="01:00:00">1 hora</option>
+                              <option value="01:10:00">1 hora</option>
+                              <option value="01:15:00">1 hora y 15 min</option>
+                              <option value="01:30:00">1 hora y 30 min</option>
+                              <option value="01:45:00">1 hora y 45 min</option>
+                              <option value="02:00:00">2 horas</option>
+                              <option value="03:00:00">3 horas</option>
                             </select>
                             <label for="timeContracted">Tiempo contratado:</label>
                         </div>
@@ -76,8 +81,11 @@
                             <label for="address" class="form-label">Dirección:</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="mobility" placeholder="Movilidad" value="Mariachi">
-                            <label for="mobility" class="form-label" >Movilidad a cargo de:</label>
+                            <select class="form-select" id="mobility" aria-label="Movilidad">
+                                <option value="Mariachi" selected>Mariachi</option>
+                                <option value="Contratante">Contratante</option>
+                            </select>
+                            <label for="mobility">Movilidad a cargo de:</label>
                         </div>
                         
                         <div class="mb-3 row align-items-center">

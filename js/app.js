@@ -7,7 +7,7 @@ import { auth, db } from "./firebase.js";
 const myModal = new bootstrap.Modal(document.getElementById("myModal"));
 let formulario = document.getElementById("formulario");
 const alertDiv = document.getElementById('alert');
-
+const isMobile = window.innerWidth <= 768;
 document.addEventListener("DOMContentLoaded", async function () {
   const calendarEl = document.getElementById("calendar");
   const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -24,31 +24,36 @@ document.addEventListener("DOMContentLoaded", async function () {
     slotLabelClassNames: {
       hour: 'custom-hour-class'
     },
-    dayHeaderFormat: { 
-      weekday: 'long'
-    },
     views: {
       timeGridWeek: {
         titleFormat: { month: 'long', day: 'numeric' },
-        dayHeaderFormat: { weekday: 'long', day: 'numeric' }
+        dayHeaderFormat: isMobile ? { weekday: 'narrow' } : { weekday: 'long', day: 'numeric' } 
       },
       dayGridMonth: {
-        titleFormat: { month: 'long' }
+        titleFormat: { month: 'long' },
+        dayHeaderFormat: isMobile ? { weekday: 'narrow' } : { weekday: 'long' } 
       },
       timeGridDay: {
         titleFormat: { month: 'long' },
-        dayHeaderFormat: { weekday: 'long', day: 'numeric' }
+        dayHeaderFormat: { weekday: 'long', day: 'numeric' } 
       },
       listWeek: {
-        titleFormat: { day: 'numeric', month: 'long', omitCommas: true } 
+        titleFormat: { day: 'numeric', month: 'long', omitCommas: true }
+      },
+      listCustom: {
+        type: 'list',
+        duration: { days: 14 }, // Muestra 14 días en la vista de lista
+        buttonText: '14 días'
       }
+      
     },
     buttonText: {
       today:    'HOY',
       month:    'MES',
       week:     'SEMANA',
       day:      'DÍA',
-      list:     'LISTA'
+      list:     'LISTA',
+      listCustom: '14DÍAS'
     },
     headerToolbar: {
       left: "prev,today,next",
@@ -72,6 +77,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 title: eventData.title,
                 start: eventData.start,
                 contractor: eventData.contractor,
+                dni: eventData.dni,
                 timeContracted: eventData.timeContracted,
                 address: eventData.address,
                 mobility: eventData.mobility,
@@ -104,6 +110,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       document.getElementById('id').value = event.id;
       document.getElementById("title").value = event.title;
       document.getElementById("contractor").value = event.extendedProps.contractor;
+      document.getElementById("dni").value = event.extendedProps.dni;
       document.getElementById("start").value = event.startStr.slice(0, 16);
       document.getElementById("timeContracted").value = event.extendedProps.timeContracted;
       document.getElementById("address").value = event.extendedProps.address;
@@ -148,6 +155,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     e.preventDefault();
     const title = document.getElementById("title").value;
     const contractor = document.getElementById("contractor").value;
+    const dni = document.getElementById("dni").value;
     const fecha = document.getElementById("start").value;
     const timeContracted = document.getElementById("timeContracted").value;
     const address = document.getElementById("address").value;
@@ -157,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const remainingAmount = document.getElementById("remainingAmount").value;
     const remark = document.getElementById("remark").value;
     
-    if ( !title || !contractor ||!fecha || !timeContracted || !address || !mobility || !totalAmount || !amountPaid || !remainingAmount ) {
+    if ( !title || !contractor || !dni ||!fecha || !timeContracted || !address || !mobility || !totalAmount || !amountPaid || !remainingAmount ) {
       alertDiv.textContent = "Por favor, complete todos los campos.";
       alertDiv.style.display = "block";
       return;
@@ -165,7 +173,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     alertDiv.style.display = "none";
     const eventId = generateUniqueId();
     try {
-      addEventDB(eventId, title, contractor, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar);
+      addEventDB(eventId, title, contractor, dni, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar);
       formulario.reset();
       myModal.hide();
     } catch (error) {
@@ -176,6 +184,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const id = document.getElementById('id').value;
     const title = document.getElementById("title").value;
     const contractor = document.getElementById("contractor").value;
+    const dni = document.getElementById("dni").value;
     const fecha = document.getElementById("start").value;
     const timeContracted = document.getElementById("timeContracted").value;
     const address = document.getElementById("address").value;
@@ -184,12 +193,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     const amountPaid = document.getElementById("amountPaid").value;
     const remainingAmount = document.getElementById("remainingAmount").value;
     const remark = document.getElementById("remark").value;
-    if ( !title || !contractor ||!fecha || !timeContracted || !address || !mobility || !totalAmount || !amountPaid || !remainingAmount ) {
+    if ( !title || !contractor || !dni ||!fecha || !timeContracted || !address || !mobility || !totalAmount || !amountPaid || !remainingAmount ) {
       alertDiv.textContent = "Por favor, complete todos los campos.";
       alertDiv.style.display = "block";
       return;
     } 
-    updateEventDB(id, title, contractor, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar);
+    updateEventDB(id, title, contractor, dni, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar);
     myModal.hide();
   });
   document.getElementById("btnDelete").addEventListener('click', function(){
@@ -203,11 +212,12 @@ function generateUniqueId() {
   return new Date().getTime().toString() + '_' + Math.random().toString(36).substring(2, 15);
 }
 
-async function addEventDB(id, title, contractor, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar) {
+async function addEventDB(id, title, contractor, dni, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar) {
   try {
     const docRef = await setDoc(doc(db, 'Eventos', id), {
         title: title,
         contractor: contractor,
+        dni : dni,
         start: fecha,
         timeContracted: timeContracted,
         address: address,
@@ -222,24 +232,27 @@ async function addEventDB(id, title, contractor, fecha , timeContracted, address
     calendar.addEvent({
       id: id,
       title: title,
+      contractor: contractor,
+      dni:dni,
       start: fecha,
       timeContracted: timeContracted,
-        address: address,
-        mobility: mobility,
-        totalAmount: totalAmount,
-        amountPaid: amountPaid,
-        remainingAmount: remainingAmount,
-        remark: remark
+      address: address,
+      mobility: mobility,
+      totalAmount: totalAmount,
+      amountPaid: amountPaid,
+      remainingAmount: remainingAmount,
+      remark: remark
     });
   } catch (error) {
     console.error('Error adding event: ', error);
   }
 }
-async function updateEventDB(id, title, contractor, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar){
+async function updateEventDB(id, title, contractor, dni, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar){
   try {
     await updateDoc(doc(db, 'Eventos', id), {
       title: title,
       contractor: contractor,
+      dni: dni,
       start: fecha,
       timeContracted: timeContracted,
       address: address,
@@ -255,6 +268,7 @@ async function updateEventDB(id, title, contractor, fecha , timeContracted, addr
       event.setProp('title', title);
       event.setStart(fecha);
       event.setExtendedProp('contractor', contractor);
+      event.setExtendedProp('dni', dni);
       event.setExtendedProp('timeContracted', timeContracted);
       event.setExtendedProp('address', address);
       event.setExtendedProp('mobility', mobility);
