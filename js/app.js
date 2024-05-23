@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       titleButton: {
         text: 'title',
         click: function() {
-          // Empty function as a placeholder
         }
       }
     },
@@ -72,7 +71,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                 id: doc.id,
                 title: eventData.title,
                 start: eventData.start,
-                color: eventData.color
+                contractor: eventData.contractor,
+                timeContracted: eventData.timeContracted,
+                address: eventData.address,
+                mobility: eventData.mobility,
+                totalAmount: eventData.totalAmount,
+                amountPaid: eventData.amountPaid,
+                remainingAmount: eventData.remainingAmount,
+                remark: eventData.remark
               };
           });
           successCallback(events);
@@ -97,8 +103,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       resetModal(); 
       document.getElementById('id').value = event.id;
       document.getElementById("title").value = event.title;
-      document.getElementById("start").value = event.startStr.slice(0,16);
-      document.getElementById("color").value = event.backgroundColor;
+      document.getElementById("contractor").value = event.extendedProps.contractor;
+      document.getElementById("start").value = event.startStr.slice(0, 16);
+      document.getElementById("timeContracted").value = event.extendedProps.timeContracted;
+      document.getElementById("address").value = event.extendedProps.address;
+      document.getElementById("mobility").value = event.extendedProps.mobility;
+      document.getElementById("totalAmount").value = event.extendedProps.totalAmount;
+      document.getElementById("amountPaid").value = event.extendedProps.amountPaid;
+      document.getElementById("remainingAmount").value = event.extendedProps.remainingAmount;
+      document.getElementById("remark").value = event.extendedProps.remark;
+
       document.getElementById("titulo").textContent = "Editar Evento";
       document.getElementById("btnAction").style.display = "none";
       document.getElementById("btnUpdate").style.display = "inline-block";  
@@ -108,20 +122,19 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   calendar.render();
-  // Set the initial title
-  const viewButtons = document.querySelectorAll('.btn-group button');
 
-viewButtons.forEach(button => {
+
+  const viewButtons = document.querySelectorAll('.btn-group button');
+  viewButtons.forEach(button => {
   button.addEventListener('click', function (event) {
     const viewName = event.target.getAttribute('data-view');
     calendar.changeView(viewName);
   });
-  const calendarTitleEl = document.getElementById('calendar-title'); // Suponiendo que tienes un elemento con ID "calendarTitle"
-
-calendar.on('datesSet', function () {
+  const calendarTitleEl = document.getElementById('calendar-title'); 
+  calendar.on('datesSet', function () {
   const viewTitle = calendar.view.title;
   calendarTitleEl.textContent = viewTitle;
-});
+  });
 
 });
   document.querySelector('.dropdown-menu').addEventListener('click', function (e) {
@@ -134,19 +147,25 @@ calendar.on('datesSet', function () {
   formulario.addEventListener("submit", function (e) {
     e.preventDefault();
     const title = document.getElementById("title").value;
+    const contractor = document.getElementById("contractor").value;
     const fecha = document.getElementById("start").value;
-    const color = document.getElementById("color").value;
+    const timeContracted = document.getElementById("timeContracted").value;
+    const address = document.getElementById("address").value;
+    const mobility = document.getElementById("mobility").value;
+    const totalAmount = document.getElementById("totalAmount").value;
+    const amountPaid = document.getElementById("amountPaid").value;
+    const remainingAmount = document.getElementById("remainingAmount").value;
+    const remark = document.getElementById("remark").value;
     
-    if (!title || !fecha || !color ) {
+    if ( !title || !contractor ||!fecha || !timeContracted || !address || !mobility || !totalAmount || !amountPaid || !remainingAmount ) {
       alertDiv.textContent = "Por favor, complete todos los campos.";
       alertDiv.style.display = "block";
       return;
     } 
     alertDiv.style.display = "none";
-    // creamos un id 
     const eventId = generateUniqueId();
     try {
-      addEventDB(eventId, title, fecha, color, calendar);
+      addEventDB(eventId, title, contractor, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar);
       formulario.reset();
       myModal.hide();
     } catch (error) {
@@ -156,9 +175,21 @@ calendar.on('datesSet', function () {
   document.getElementById("btnUpdate").addEventListener('click', function(){
     const id = document.getElementById('id').value;
     const title = document.getElementById("title").value;
+    const contractor = document.getElementById("contractor").value;
     const fecha = document.getElementById("start").value;
-    const color = document.getElementById("color").value;
-    updateEventDB(id, title, fecha, color, calendar);
+    const timeContracted = document.getElementById("timeContracted").value;
+    const address = document.getElementById("address").value;
+    const mobility = document.getElementById("mobility").value;
+    const totalAmount = document.getElementById("totalAmount").value;
+    const amountPaid = document.getElementById("amountPaid").value;
+    const remainingAmount = document.getElementById("remainingAmount").value;
+    const remark = document.getElementById("remark").value;
+    if ( !title || !contractor ||!fecha || !timeContracted || !address || !mobility || !totalAmount || !amountPaid || !remainingAmount ) {
+      alertDiv.textContent = "Por favor, complete todos los campos.";
+      alertDiv.style.display = "block";
+      return;
+    } 
+    updateEventDB(id, title, contractor, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar);
     myModal.hide();
   });
   document.getElementById("btnDelete").addEventListener('click', function(){
@@ -172,12 +203,19 @@ function generateUniqueId() {
   return new Date().getTime().toString() + '_' + Math.random().toString(36).substring(2, 15);
 }
 
-async function addEventDB(id, title, fecha, color, calendar) {
+async function addEventDB(id, title, contractor, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar) {
   try {
     const docRef = await setDoc(doc(db, 'Eventos', id), {
         title: title,
+        contractor: contractor,
         start: fecha,
-        color: color
+        timeContracted: timeContracted,
+        address: address,
+        mobility: mobility,
+        totalAmount: totalAmount,
+        amountPaid: amountPaid,
+        remainingAmount: remainingAmount,
+        remark: remark
     });
     
     console.log('Evento agregado con ID: ', id);
@@ -185,26 +223,45 @@ async function addEventDB(id, title, fecha, color, calendar) {
       id: id,
       title: title,
       start: fecha,
-      color: color
+      timeContracted: timeContracted,
+        address: address,
+        mobility: mobility,
+        totalAmount: totalAmount,
+        amountPaid: amountPaid,
+        remainingAmount: remainingAmount,
+        remark: remark
     });
   } catch (error) {
     console.error('Error adding event: ', error);
   }
 }
-async function updateEventDB(id, title, fecha, color, calendar){
+async function updateEventDB(id, title, contractor, fecha , timeContracted, address , mobility , totalAmount, amountPaid, remainingAmount, remark, calendar){
   try {
-    console.log(id);
     await updateDoc(doc(db, 'Eventos', id), {
       title: title,
+      contractor: contractor,
       start: fecha,
-      color: color
+      timeContracted: timeContracted,
+      address: address,
+      mobility: mobility,
+      totalAmount: totalAmount,
+      amountPaid: amountPaid,
+      remainingAmount: remainingAmount,
+      remark: remark
     });
     
     const event = calendar.getEventById(id);
     if(event){
       event.setProp('title', title);
       event.setStart(fecha);
-      event.setProp('color', color);
+      event.setExtendedProp('contractor', contractor);
+      event.setExtendedProp('timeContracted', timeContracted);
+      event.setExtendedProp('address', address);
+      event.setExtendedProp('mobility', mobility);
+      event.setExtendedProp('totalAmount', totalAmount);
+      event.setExtendedProp('amountPaid', amountPaid);
+      event.setExtendedProp('remainingAmount', remainingAmount);
+      event.setExtendedProp('remark', remark);
     }
   } catch (error) {
     console.log("Error actualizando evento: ", error);
@@ -234,3 +291,20 @@ function resetModal() {
   document.getElementById("btnUpdate").style.display = "none";
   document.getElementById("btnDelete").style.display = "none";
 }
+
+document.getElementById("totalAmount").addEventListener('keyup',()=>{
+  const total = document.getElementById("totalAmount").value;
+  let acuenta = document.getElementById('amountPaid').value;
+  const saldo = document.getElementById('remainingAmount');
+  if(total){
+    saldo.value = total - acuenta
+  }
+});
+document.getElementById("amountPaid").addEventListener('keyup',()=>{
+  const total = document.getElementById("totalAmount").value;
+  let acuenta = document.getElementById('amountPaid').value;
+  const saldo = document.getElementById('remainingAmount');
+  if(total){
+    saldo.value = total - acuenta
+  }
+});

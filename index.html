@@ -52,8 +52,12 @@
                             <label for="title" class="form-label">Evento:</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="contractor" placeholder="Contrante">
-                            <label for="contractor" class="form-label">Contrante:</label>
+                            <input type="text" class="form-control" id="contractor" placeholder="Contratante">
+                            <label for="contractor" class="form-label">Contratante:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="dni" placeholder="documento de identidad">
+                            <label for="dni" class="form-label">Documento de identidad:</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="datetime-local" class="form-control" id="start" placeholder="Fecha y hora">
@@ -78,36 +82,36 @@
                         
                         <div class="mb-3 row align-items-center">
                             <div class="col-auto">
-                                <label for="montoTotal" class="col-form-label">Monto Total</label>
+                                <label for="totalAmount" class="col-form-label">Monto Total</label>
                             </div>
                             <div class="col-auto">
                                 <div class="input-group">
                                     <span class="input-group-text">S/.</span>
-                                    <input type="number" class="form-control" id="montoTotal" aria-label="Monto Total">
+                                    <input type="number" class="form-control" id="totalAmount" aria-label="Monto Total">
                                     <span class="input-group-text">.00</span>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3 row align-items-center">
                             <div class="col-auto">
-                                <label for="montoTotal" class="col-form-label">A cuenta:</label>
+                                <label for="amountPaid" class="col-form-label">A cuenta:</label>
                             </div>
                             <div class="col-auto">
                                 <div class="input-group">
                                     <span class="input-group-text">S/.</span>
-                                    <input type="number" class="form-control" id="montoTotal" aria-label="Monto Total">
+                                    <input type="number" class="form-control" id="amountPaid" aria-label="Monto pagado">
                                     <span class="input-group-text">.00</span>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3 row align-items-center">
                             <div class="col-auto">
-                                <label for="montoTotal" class="col-form-label">Saldo:</label>
+                                <label for="remainingAmount" class="col-form-label">Saldo:</label>
                             </div>
                             <div class="col-auto">
                                 <div class="input-group">
                                     <span class="input-group-text">S/.</span>
-                                    <input type="number" class="form-control" id="montoTotal" aria-label="Monto Total" readonly >
+                                    <input type="number" class="form-control" id="remainingAmount" aria-label="Monto restante" readonly >
                                     <span class="input-group-text">.00</span>
                                 </div>
                             </div>
