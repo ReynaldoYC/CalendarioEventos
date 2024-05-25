@@ -11,6 +11,20 @@
 </head>
 
 <body>
+    <div id="invoice">
+        <h2>Boleta de Servicios</h2>
+        <p><strong>Título:</strong> <span id="invoiceTitle"></span></p>
+        <p><strong>Contratista:</strong> <span id="invoiceContractor"></span></p>
+        <p><strong>DNI:</strong> <span id="invoiceDNI"></span></p>
+        <p><strong>Fecha:</strong> <span id="invoiceDate"></span></p>
+        <p><strong>Horas Contratadas:</strong> <span id="invoiceTimeContracted"></span></p>
+        <p><strong>Dirección:</strong> <span id="invoiceAddress"></span></p>
+        <p><strong>Movilidad:</strong> <span id="invoiceMobility"></span></p>
+        <p><strong>Monto Total:</strong> <span id="invoiceTotalAmount"></span></p>
+        <p><strong>Monto Pagado:</strong> <span id="invoiceAmountPaid"></span></p>
+        <p><strong>Monto Restante:</strong> <span id="invoiceRemainingAmount"></span></p>
+        <p><strong>Observaciones:</strong> <span id="invoiceRemark"></span></p>
+      </div>
     <h1 class="text-center">Calendario de Eventos</h1>
     <div class="dropdown">
         <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -38,7 +52,7 @@
         aria-labelledby="staticBackdrop" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-black text-white">
+                <div class="modal-header text-white">
                     <h5 class="modal-title" id="titulo"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
@@ -48,6 +62,7 @@
                         <div id="alert" class="alert alert-danger" style="display: none;"></div>
                         <div class="form-floating mb-3">
                             <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="dateReg" name="dateReg">
                             <input type="text" class="form-control" id="title" placeholder="Evento">
                             <label for="title" class="form-label">Evento:</label>
                         </div>
@@ -87,7 +102,19 @@
                             </select>
                             <label for="mobility">Movilidad a cargo de:</label>
                         </div>
-                        
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="members" aria-label="Cantidad de Integrantes">
+                              <option value="5" selected>5</option>
+                              <option value="4">4</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                            </select>
+                            <label for="members">Cantidad de Integrantes:</label>
+                        </div>
                         <div class="mb-3 row align-items-center">
                             <div class="col-auto">
                                 <label for="totalAmount" class="col-form-label">Monto Total</label>
@@ -130,9 +157,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button class="btn btn-outline-info" type="button" id="btnInvoice">Boleta</button>
                         <button class="btn btn-warning" type="button" data-bs-dismiss="modal">Cancelar</button>
                         <button class="btn btn-danger" id="btnDelete" type="button">Eliminar</button>
-                        <button class="btn btn-info" id="btnAction" type="submit">Registrar</button>
+                        <button class="btn btn-success" id="btnAction" type="submit">Registrar</button>
                         <button class="btn btn-success" id="btnUpdate" type="button" style="display: none;">Actualizar</button>
                     </div>
                 </form>
@@ -145,6 +173,7 @@
     <script src="./js/moment.min.js"></script>
     <script src="./js/es.global.min.js"></script>
     <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script type="module" src="./js/app.js"></script>
     

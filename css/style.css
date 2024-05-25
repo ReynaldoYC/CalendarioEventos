@@ -15,7 +15,6 @@ html, body {
     height: 100%;
     
 }
-/* Oculta las barras de desplazamiento en Chrome, Safari y Edge */
 #calendar::-webkit-scrollbar {
     display: none;
 }
@@ -33,7 +32,9 @@ html, body {
 .fc .fc-timegrid-axis-cushion {
     border: none;
 }
-
+.modal-header {
+    background-color: #5A9C9A;    
+}
 
 .fc-timegrid-axis-cushion {
     font-weight: bold;
@@ -68,7 +69,6 @@ html, body {
     margin-left: .7em;
 }
 
-/* Ajusta el tamaño de las fuentes para que sea más pequeño en dispositivos pequeños */
 @media (max-width: 576px) {
     .fc .fc-toolbar-title {
         font-size: 1.1em;
@@ -80,11 +80,7 @@ html, body {
         font-size: 0.75em;
     }
     .fc-col-header-cell-cushion{
-        color: #ffffff;
-    }
-    .fc-col-header-cell-cushion::first-letter{ 
         color: #000;
-        margin-left: 1rem;
     }
     .dropdown button {
         font-size: .8rem;
@@ -100,3 +96,16 @@ html, body {
     
 
 }
+
+/* para la factura */
+#invoice {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #000;
+    margin: 20px auto;
+    display: none; 
+  }
+  #invoice h2 {
+    text-align: center;
+  }
