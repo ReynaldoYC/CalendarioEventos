@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             timeContracted: eventData.timeContracted,
             address: eventData.address,
             mobility: eventData.mobility,
+            members: eventData.members,
             totalAmount: eventData.totalAmount,
             amountPaid: eventData.amountPaid,
             remainingAmount: eventData.remainingAmount,
@@ -120,6 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         event.extendedProps.timeContracted;
       document.getElementById("address").value = event.extendedProps.address;
       document.getElementById("mobility").value = event.extendedProps.mobility;
+      document.getElementById("members").value = event.extendedProps.members;
       document.getElementById("totalAmount").value =
         event.extendedProps.totalAmount;
       document.getElementById("amountPaid").value =
@@ -345,6 +347,7 @@ async function updateEventDB(
   timeContracted,
   address,
   mobility,
+  members,
   totalAmount,
   amountPaid,
   remainingAmount,
@@ -360,6 +363,7 @@ async function updateEventDB(
       timeContracted: timeContracted,
       address: address,
       mobility: mobility,
+      members: members,
       totalAmount: totalAmount,
       amountPaid: amountPaid,
       remainingAmount: remainingAmount,
@@ -375,6 +379,7 @@ async function updateEventDB(
       event.setExtendedProp("timeContracted", timeContracted);
       event.setExtendedProp("address", address);
       event.setExtendedProp("mobility", mobility);
+      event.setExtendedProp("members", members);
       event.setExtendedProp("totalAmount", totalAmount);
       event.setExtendedProp("amountPaid", amountPaid);
       event.setExtendedProp("remainingAmount", remainingAmount);
