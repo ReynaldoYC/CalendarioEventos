@@ -477,30 +477,29 @@ document.getElementById("btnInvoice").addEventListener("click", function () {
 
 function generatePNG(id, dateReg, title, contractor, dni, fecha, timeContracted, address, mobility, totalAmount, amountPaid, remainingAmount, remark) {
   document.getElementById("invoiceTitle").textContent = title;
-      document.getElementById("invoiceContractor").textContent = contractor;
-      document.getElementById("invoiceDNI").textContent = dni;
-      document.getElementById("invoiceDate").textContent = fecha;
-      document.getElementById("invoiceTimeContracted").textContent = timeContracted;
-      document.getElementById("invoiceAddress").textContent = address;
-      document.getElementById("invoiceMobility").textContent = mobility;
-      document.getElementById("invoiceTotalAmount").textContent = totalAmount;
-      document.getElementById("invoiceAmountPaid").textContent = amountPaid;
-      document.getElementById("invoiceRemainingAmount").textContent = remainingAmount;
-      document.getElementById("invoiceRemark").textContent = remark;
+  document.getElementById("invoiceId").textContent = id;
+  document.getElementById("invoiceContractor").textContent = contractor;
+  document.getElementById("invoiceDNI").textContent = dni;
+  document.getElementById("invoiceDate").textContent = fecha;
+  document.getElementById("invoiceTimeContracted").textContent = timeContracted;
+  document.getElementById("invoiceAddress").textContent = address;
+  document.getElementById("invoiceMobility").textContent = mobility;
+  document.getElementById("invoiceTotalAmount").textContent = totalAmount;
+  document.getElementById("invoiceAmountPaid").textContent = amountPaid;
+  document.getElementById("invoiceRemainingAmount").textContent = remainingAmount;
+  document.getElementById("invoiceRemark").textContent = remark;
       
-      document.getElementById("invoice").style.display = "block";
-      html2canvas(document.getElementById("invoice")).then(canvas => {
-        const imgData = canvas.toDataURL("image/png");
-
-        // Ocultar la boleta nuevamente
-        document.getElementById("invoice").style.display = "none";
-
-        // Crear un enlace de descarga para la imagen
-        const link = document.createElement('a');
-        link.href = imgData;
-        link.download = 'boleta.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+  document.getElementById("invoice").style.display = "block";
+  html2canvas(document.getElementById("invoice")).then(canvas => {
+    const imgData = canvas.toDataURL("image/png")
+    // Ocultar la boleta nuevamente
+    document.getElementById("invoice").style.display = "none"
+    // Crear un enlace de descarga para la imagen
+    const link = document.createElement('a');
+    link.href = imgData;
+    link.download = 'boleta.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
 }

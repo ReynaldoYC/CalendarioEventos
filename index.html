@@ -12,14 +12,61 @@
 
 <body>
     <div id="invoice">
-        <h2>Boleta de Servicios</h2>
-        <p><strong>Título:</strong> <span id="invoiceTitle"></span></p>
+        <header class="contract-header mb-0">
+            <div class="row">
+              <div class="col-5 text-left">
+                <img src="img/logo-color.png" alt="Guitar Icon">
+              </div>
+              <div class="col-7  mt-3">
+                <p class="mb-0">Amenizamos todo tipo de Celebraciones dentro y fuera de la ciudad, con calidad y responsabilidad</p>
+                <h2 class="mb-0">Reynaldo Yacila</h2>
+                <p class="mb-0">Representante</p>
+                <p class="mb-0 bg-success text-white">Calle Santa Julia N° 510 - A.H. Sánchez Cerro - Sullana</p>
+                <p class="mb-0 bg-success text-white">Cel.: 968877153 - 930926873 - Fija: 073-622687</p>
+              </div>
+            </div>
+        </header>
+        <main class="contract-body">
+            <div class="row">
+                <div class="col-4 fecha-cuadro">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item p-2 ">DIA</li>
+                        <li class="list-group-item p-2 ">MES</li>
+                        <li class="list-group-item p-2 ">AÑO</li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item p-2">DIA</li>
+                        <li class="list-group-item p-2">MES</li>
+                        <li class="list-group-item p-2">AÑO</li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h2 class="text-center">CONTRATO:</h2>
+                </div>
+                <div class="col-4 mt-2">
+                    <p class="text-danger code-id">N:<span id="invoiceId"></span></p>
+                </div>
+            </div>
+        </main>
+
+        <p><strong>Evento:</strong> <span id="invoiceTitle"></span></p>
         <p><strong>Contratista:</strong> <span id="invoiceContractor"></span></p>
         <p><strong>DNI:</strong> <span id="invoiceDNI"></span></p>
         <p><strong>Fecha:</strong> <span id="invoiceDate"></span></p>
         <p><strong>Horas Contratadas:</strong> <span id="invoiceTimeContracted"></span></p>
         <p><strong>Dirección:</strong> <span id="invoiceAddress"></span></p>
         <p><strong>Movilidad:</strong> <span id="invoiceMobility"></span></p>
+        <div class="notes">
+            <h6>NOTA:</h6>
+            <ol>
+              <li>El Contratante abonará el 50% al realizar el Contrato.</li>
+              <li>El 50% restante será cancelado al finalizar la presentación</li>
+              <li>El Contratante será responsable de daños y perjuicios causados al instrumental del grupo, durante el evento.</li>
+              <li>En caso de alternar con otro grupo musical, orquesta, sonido o alguna variedad, Mariachi "Los Reyes" no repondrá dicho tiempo y se sujetará al horario de inicio y final del contrato.</li>
+              <li>Si por alguna razón de riña, pelea u otra situación, se suspende el evento, el contratante se compromete al pago del 100% de lo pactado.</li>
+              <li>En caso de postergación, deberá comunicarse 7 días antes de la realización del evento, caso contrario, quedará sin efecto el presente contrato y así mismo perderá el adelanto.</li>
+            </ol>
+          </div>
         <p><strong>Monto Total:</strong> <span id="invoiceTotalAmount"></span></p>
         <p><strong>Monto Pagado:</strong> <span id="invoiceAmountPaid"></span></p>
         <p><strong>Monto Restante:</strong> <span id="invoiceRemainingAmount"></span></p>
