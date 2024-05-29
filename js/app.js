@@ -479,16 +479,71 @@ function generatePNG(id, dateReg, title, contractor, dni, fecha, timeContracted,
   document.getElementById("invoiceTitle").textContent = title;
   document.getElementById("invoiceId").textContent = id;
   document.getElementById("invoiceContractor").textContent = contractor;
-  document.getElementById("invoiceDNI").textContent = dni;
-  document.getElementById("invoiceDate").textContent = fecha;
-  document.getElementById("invoiceTimeContracted").textContent = timeContracted;
+  //document.getElementById("invoiceDNI").textContent = dni;
+  document.getElementById("invoiceDate").textContent = formatearFecha(fecha.slice(0,10));
+  document.getElementById("invoiceDay").textContent = dateReg.slice(0, 2);
+  document.getElementById("invoiceMonth").textContent = dateReg.slice(3,5);
+  document.getElementById("invoiceYear").textContent = dateReg.slice(6,10);
+  document.getElementById("invoiceTimeContracted").textContent = formatearHoraContratada(timeContracted);
   document.getElementById("invoiceAddress").textContent = address;
+  document.getElementById("invoiceHour").textContent = formatearHora(fecha.slice(11,16));
   document.getElementById("invoiceMobility").textContent = mobility;
   document.getElementById("invoiceTotalAmount").textContent = totalAmount;
   document.getElementById("invoiceAmountPaid").textContent = amountPaid;
   document.getElementById("invoiceRemainingAmount").textContent = remainingAmount;
   document.getElementById("invoiceRemark").textContent = remark;
-      
+  function formatearHoraContratada(timeContracted){
+    const partes = timeContracted.split(':');
+    const horas = parseInt(partes[0], 10);
+    const minutos = parseInt(partes[1], 10);
+    const segundos = parseInt(partes[2], 10);
+
+    if (horas > 0) {
+        return `${horas} hora y ${minutos} minutos`;
+    } else if (minutos > 0) {
+        return segundos > 0 ? `${minutos} minutos ${segundos} s` : `${minutos} minutos`;
+    } else {
+        return `${segundos} s`;
+    }
+  }
+  function formatearFecha(fecha){
+    const meses = [
+      "enero", "febrero", "marzo", "abril", "mayo", "junio",
+      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+  ];
+  
+  const partes = fecha.split('-');
+  
+ 
+  const año = partes[0];
+  const mes = parseInt(partes[1], 10) - 1; // Restar 1 porque los meses en el array empiezan desde 0
+  const día = parseInt(partes[2], 10);
+  
+  // Formatear la fecha
+  return `${día} de ${meses[mes]} del ${año}`;
+  }
+  function formatearHora(hora) {
+    // Dividir la hora en horas y minutos
+    const partes = hora.split(':');
+    
+    // Extraer horas y minutos
+    let horas = parseInt(partes[0], 10);
+    const minutos = partes[1];
+    
+    // Verificar el caso especial de 24:00
+    if (horas === 24 && minutos === '00') {
+        return `12:00 am`;
+    }
+    
+    // Determinar AM o PM
+    const periodo = horas >= 12 ? 'pm' : 'am';
+    
+    // Convertir horas al formato de 12 horas
+    horas = horas % 12 || 12; // Convertir 0 a 12 para el formato 12 horas
+    
+    // Formatear la hora
+    return `${horas}:${minutos} ${periodo}`;
+}
   document.getElementById("invoice").style.display = "block";
   html2canvas(document.getElementById("invoice")).then(canvas => {
     const imgData = canvas.toDataURL("image/png")

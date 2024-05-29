@@ -120,5 +120,15 @@ html, body {
 .code-id {
     font-size: 1em;
 }
-
-  
+.asdas {
+    font-size: 10px;
+}
+.invoiceText {
+    font-size: 1.5rem;
+}
+#invoiceRemark{
+    margin: 0; /* Elimina el margen entre párrafos */
+    padding: 0; /* Elimina el padding entre párrafos */
+    line-height: 1; /* Ajusta la altura de la línea */
+    letter-spacing: 0; 
+}
