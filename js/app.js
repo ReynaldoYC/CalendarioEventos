@@ -1,4 +1,7 @@
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+import { onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  setPersistence, 
+  browserLocalPersistence  } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
 import {
   getDocs,
   getFirestore,
@@ -11,6 +14,67 @@ import {
   Timestamp,
 } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
+
+
+// login 
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Local persistence successfully set");
+  })
+  .catch((error) => {
+    console.error("Error setting local persistence: ", error);
+  });
+
+// Selecciona los elementos del DOM
+const loginForm = document.getElementById('login-form');
+const loginError = document.getElementById('login-error');
+const appContainer = document.getElementById('app-contenido');
+const loginContainer = document.getElementById('login-container');
+
+// Escucha el evento de submit del formulario de inicio de sesión
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      loginContainer.style.display = 'none';
+      appContainer.style.display = 'block';
+    })
+    .catch((error) => {
+      loginError.textContent = error.message;
+    });
+});
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loginContainer.style.display = 'none';
+    appContainer.style.display = 'block';
+  } else {
+    loginContainer.style.display = 'block';
+    appContainer.style.display = 'none';
+  }
+});
+
+document.getElementById('logout').addEventListener('click', () => {
+  auth.signOut();
+});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch(error => {
+        console.log('Service Worker registration failed:', error);
+      });
+  });
+}
+
+
+
+
+
 
 const myModal = new bootstrap.Modal(document.getElementById("myModal"));
 let formulario = document.getElementById("formulario");
@@ -70,6 +134,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const querySnapshot = await getDocs(collection(db, "Eventos"));
         const events = querySnapshot.docs.map((doc) => {
           const eventData = doc.data();
+
           return {
             id: doc.id,
             title: eventData.title,
@@ -87,6 +152,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             dateReg: eventData.dateReg
           };
         });
+        console.log('hola mundo');
         successCallback(events);
       } catch (error) {
         console.error("Error getting events: ", error);

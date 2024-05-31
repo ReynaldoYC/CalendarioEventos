@@ -7,218 +7,240 @@
     <title>Administrador de Eventos</title>
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="icon" href="img/logo-color.png" type="image/x-icon">
+    <link rel="manifest" href="./manifest.json">
    
 </head>
 
 <body>
-    <div id="invoice">
-        <header class="contract-header mb-0">
-            <div class="row">
-              <div class="col-5 text-left">
-                <img src="img/logo-color.png" alt="Guitar Icon">
-              </div>
-              <div class="col-7  mt-3">
-                <p class="mb-0">Amenizamos todo tipo de Celebraciones dentro y fuera de la ciudad, con calidad y responsabilidad</p>
-                <h2 class="mb-0">Reynaldo Yacila</h2>
-                <p class="mb-0">Representante</p>
-                <p class="mb-0 bg-success text-white">Calle Santa Julia N° 510 - A.H. Sánchez Cerro - Sullana</p>
-                <p class="mb-0 bg-success text-white">Cel.: 968877153 - 930926873 - Fija: 073-622687</p>
-              </div>
-            </div>
-        </header>
-        <main class="contract-body">
-            <div class="row justify-content-between">
-                <div class="col-3">
-                    <table class="table table-bordered table-sm text-center border-dark asdas">
-                        <thead class="">
-                            <td class="bg-black text-white">DIA</td>
-                            <td class="bg-black text-white">MES</td>
-                            <td class="bg-black text-white">AÑO</td>
-                        </thead>
-                        <tbody>
-                            <td class="bg-light" id="invoiceDay"></td>
-                            <td class="bg-white" id="invoiceMonth"></td>
-                            <td class="bg-white" id="invoiceYear"></td>
-                        </tbody>
-
-                    </table>
-                </div>
-                <div class="col-4">
-                    <h2 class="text-end">CONTRATO</h2>
-                </div>
-                <div class="col-4 mt-0 text-end">
-                    <p class="text-danger code-id">N:<span id="invoiceId"></span></p>
-                </div>
-            </div>
-        </main>
-
-        <p class="invoiceText mb-0 "><strong>Evento: </strong> <span id="invoiceTitle" class="text-decoration-underline"></span></p>
-        <p class="invoiceText mb-0"><strong>El Sr.(a): </strong> <span id="invoiceContractor" class="text-decoration-underline"></span></p>
-        <p class="invoiceText mb-0">Contrata los servicios musicales de <strong>MARIACHI "Los Reyes"</strong>, para su presentación el día: <span id="invoiceDate" class="text-decoration-underline"></span>&nbsp; en: <span id="invoiceAddress" class="text-decoration-underline"></span>  <span>&nbsp;  por: </span> <span id="invoiceTimeContracted" class="text-decoration-underline"></span> </p>
-        <p class="invoiceText mb-0">Hora de inicio: <span id="invoiceHour"></span> &nbsp; Movilidad a cargo de: <span class="" id="invoiceMobility"></span></p>
-        <div class="notes mb-0">
-            <h6>NOTA:</h6>
-            <ol>
-              <li>El Contratante abonará el 50% al realizar el Contrato.</li>
-              <li>El 50% restante será cancelado al finalizar la presentación</li>
-              <li>El Contratante será responsable de daños y perjuicios causados al instrumental del grupo, durante el evento.</li>
-              <li>En caso de alternar con otro grupo musical, orquesta, sonido o alguna variedad, Mariachi "Los Reyes" no repondrá dicho tiempo y se sujetará al horario de inicio y final del contrato.</li>
-              <li>Si por alguna razón de riña, pelea u otra situación, se suspende el evento, el contratante se compromete al pago del 100% de lo pactado.</li>
-              <li>En caso de postergación, deberá comunicarse 7 días antes de la realización del evento, caso contrario, quedará sin efecto el presente contrato y así mismo perderá el adelanto.</li>
-            </ol>
-          </div>
-        <p class="invoiceText mb-0"><strong>Total:</strong> s/.<span id="invoiceTotalAmount"></span>.00 &nbsp; <strong>A Cuenta:</strong> s/. <span id="invoiceAmountPaid"></span>.00 &nbsp;<strong>Restante:</strong>s/. <span id="invoiceRemainingAmount"></span>.00</p>
-        <div class=" overflow-hidden">
-            <p class="invoiceText  mb-0"><strong>Observaciones:</strong> 
-            <p id="invoiceRemark" class="invoiceText mb-5"></p>
-        </div>
-      </div>
-
-
-
-
-    <h1 class="text-center">Calendario de Eventos</h1>
-    <div class="dropdown">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          Vistas del calendario
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" data-view="timeGridWeek">Semana</a></li>
-          <li><a class="dropdown-item" data-view="dayGridMonth">Mes</a></li>
-          <li><a class="dropdown-item" data-view="timeGridDay">Día</a></li>
-          <li><a class="dropdown-item" data-view="listWeek">Lista</a></li>
-        </ul>
-      </div>
-      
-      <h1 id="calendar-title"></h1>
-    <div class="container-fluid h-100">
-        <div class="row flex-grow-1 h-100">
-            <div class="col-12 h-100">
-                <div id="calendar"></div>
-            </div>
-
-        </div>
-    </div>
     
-    <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-white">
-                    <h5 class="modal-title" id="titulo"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
+    <div id="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form">
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" required>
+          <label for="password">Contraseña:</label>
+          <input type="password" id="password" required>
+          <button type="submit">Iniciar Sesión</button>
+        </form>
+        <div id="login-error" style="color: red;"></div>
+    </div>
+
+    <div id="app-contenido">
+        
+        <button id="logout">Cerrar Sesión</button>
+        <div id="invoice">
+            <header class="contract-header mb-0">
+                <div class="row">
+                  <div class="col-5 text-left">
+                    <img src="img/logo-color.png" alt="Guitar Icon">
+                  </div>
+                  <div class="col-7  mt-3">
+                    <p class="mb-0">Amenizamos todo tipo de Celebraciones dentro y fuera de la ciudad, con calidad y responsabilidad</p>
+                    <h2 class="mb-0">Reynaldo Yacila</h2>
+                    <p class="mb-0">Representante</p>
+                    <p class="mb-0 bg-success text-white">Calle Santa Julia N° 510 - A.H. Sánchez Cerro - Sullana</p>
+                    <p class="mb-0 bg-success text-white">Cel.: 968877153 - 930926873 - Fija: 073-622687</p>
+                  </div>
                 </div>
-                <form id="formulario">
-                    <div class="modal-body">
-                        <div id="alert" class="alert alert-danger" style="display: none;"></div>
-                        <div class="form-floating mb-3">
-                            <input type="hidden" id="id" name="id">
-                            <input type="hidden" id="dateReg" name="dateReg">
-                            <input type="text" class="form-control" id="title" placeholder="Evento">
-                            <label for="title" class="form-label">Evento:</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="contractor" placeholder="Contratante">
-                            <label for="contractor" class="form-label">Contratante:</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="dni" placeholder="documento de identidad">
-                            <label for="dni" class="form-label">Documento de identidad:</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="datetime-local" class="form-control" id="start" placeholder="Fecha y hora">
-                            <label for="start" class="form-label">Fecha y Hora:</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <select class="form-select" id="timeContracted" aria-label="Tiempo contratado">
-                              <option value="00:30:00" selected>30 min</option>
-                              <option value="00:45:00">45 min</option>
-                              <option value="01:10:00">1 hora</option>
-                              <option value="01:15:00">1 hora y 15 min</option>
-                              <option value="01:30:00">1 hora y 30 min</option>
-                              <option value="01:45:00">1 hora y 45 min</option>
-                              <option value="02:00:00">2 horas</option>
-                              <option value="03:00:00">3 horas</option>
-                            </select>
-                            <label for="timeContracted">Tiempo contratado:</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="address" placeholder="Dirección">
-                            <label for="address" class="form-label">Dirección:</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <select class="form-select" id="mobility" aria-label="Movilidad">
-                                <option value="Mariachi" selected>Mariachi</option>
-                                <option value="Contratante">Contratante</option>
-                            </select>
-                            <label for="mobility">Movilidad a cargo de:</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <select class="form-select" id="members" aria-label="Cantidad de Integrantes">
-                              <option value="5" selected>5</option>
-                              <option value="4">4</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                              <option value="11">11</option>
-                            </select>
-                            <label for="members">Cantidad de Integrantes:</label>
-                        </div>
-                        <div class="mb-3 row align-items-center">
-                            <div class="col-auto">
-                                <label for="totalAmount" class="col-form-label">Monto Total</label>
-                            </div>
-                            <div class="col-auto">
-                                <div class="input-group">
-                                    <span class="input-group-text">S/.</span>
-                                    <input type="number" class="form-control" id="totalAmount" aria-label="Monto Total">
-                                    <span class="input-group-text">.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3 row align-items-center">
-                            <div class="col-auto">
-                                <label for="amountPaid" class="col-form-label">A cuenta:</label>
-                            </div>
-                            <div class="col-auto">
-                                <div class="input-group">
-                                    <span class="input-group-text">S/.</span>
-                                    <input type="number" class="form-control" id="amountPaid" aria-label="Monto pagado">
-                                    <span class="input-group-text">.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3 row align-items-center">
-                            <div class="col-auto">
-                                <label for="remainingAmount" class="col-form-label">Saldo:</label>
-                            </div>
-                            <div class="col-auto">
-                                <div class="input-group">
-                                    <span class="input-group-text">S/.</span>
-                                    <input type="number" class="form-control" id="remainingAmount" aria-label="Monto restante" readonly >
-                                    <span class="input-group-text">.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-floating">
-                            <textarea class="form-control" placeholder="Agrega las Observaciones" id="remark" style="height: 100px"></textarea>
-                            <label for="remark">Observaciones:</label>
-                        </div>
+            </header>
+            <main class="contract-body">
+                <div class="row justify-content-between">
+                    <div class="col-3">
+                        <table class="table table-bordered table-sm text-center border-dark asdas">
+                            <thead class="">
+                                <td class="bg-black text-white">DIA</td>
+                                <td class="bg-black text-white">MES</td>
+                                <td class="bg-black text-white">AÑO</td>
+                            </thead>
+                            <tbody>
+                                <td class="bg-light" id="invoiceDay"></td>
+                                <td class="bg-white" id="invoiceMonth"></td>
+                                <td class="bg-white" id="invoiceYear"></td>
+                            </tbody>
+    
+                        </table>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-outline-info" type="button" id="btnInvoice">Boleta</button>
-                        <button class="btn btn-warning" type="button" data-bs-dismiss="modal">Cancelar</button>
-                        <button class="btn btn-danger" id="btnDelete" type="button">Eliminar</button>
-                        <button class="btn btn-success" id="btnAction" type="submit">Registrar</button>
-                        <button class="btn btn-success" id="btnUpdate" type="button" style="display: none;">Actualizar</button>
+                    <div class="col-4">
+                        <h2 class="text-end">CONTRATO</h2>
                     </div>
-                </form>
+                    <div class="col-4 mt-0 text-end">
+                        <p class="text-danger code-id">N:<span id="invoiceId"></span></p>
+                    </div>
+                </div>
+            </main>
+    
+            <p class="invoiceText mb-0 "><strong>Evento: </strong> <span id="invoiceTitle" class="text-decoration-underline"></span></p>
+            <p class="invoiceText mb-0"><strong>El Sr.(a): </strong> <span id="invoiceContractor" class="text-decoration-underline"></span></p>
+            <p class="invoiceText mb-0">Contrata los servicios musicales de <strong>MARIACHI "Los Reyes"</strong>, para su presentación el día: <span id="invoiceDate" class="text-decoration-underline"></span>&nbsp; en: <span id="invoiceAddress" class="text-decoration-underline"></span>  <span>&nbsp;  por: </span> <span id="invoiceTimeContracted" class="text-decoration-underline"></span> </p>
+            <p class="invoiceText mb-0">Hora de inicio: <span id="invoiceHour"></span> &nbsp; Movilidad a cargo de: <span class="" id="invoiceMobility"></span></p>
+            <div class="notes mb-0">
+                <h6>NOTA:</h6>
+                <ol>
+                  <li>El Contratante abonará el 50% al realizar el Contrato.</li>
+                  <li>El 50% restante será cancelado al finalizar la presentación</li>
+                  <li>El Contratante será responsable de daños y perjuicios causados al instrumental del grupo, durante el evento.</li>
+                  <li>En caso de alternar con otro grupo musical, orquesta, sonido o alguna variedad, Mariachi "Los Reyes" no repondrá dicho tiempo y se sujetará al horario de inicio y final del contrato.</li>
+                  <li>Si por alguna razón de riña, pelea u otra situación, se suspende el evento, el contratante se compromete al pago del 100% de lo pactado.</li>
+                  <li>En caso de postergación, deberá comunicarse 7 días antes de la realización del evento, caso contrario, quedará sin efecto el presente contrato y así mismo perderá el adelanto.</li>
+                </ol>
+              </div>
+            <p class="invoiceText mb-0"><strong>Total:</strong> s/.<span id="invoiceTotalAmount"></span>.00 &nbsp; <strong>A Cuenta:</strong> s/. <span id="invoiceAmountPaid"></span>.00 &nbsp;<strong>Restante:</strong>s/. <span id="invoiceRemainingAmount"></span>.00</p>
+            <div class=" overflow-hidden">
+                <p class="invoiceText  mb-0"><strong>Observaciones:</strong> 
+                <p id="invoiceRemark" class="invoiceText mb-5"></p>
+            </div>
+          </div>
+    
+    
+    
+    
+        <h1 class="text-center">Calendario de Eventos</h1>
+        <div class="dropdown">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Vistas del calendario
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" data-view="timeGridWeek">Semana</a></li>
+              <li><a class="dropdown-item" data-view="dayGridMonth">Mes</a></li>
+              <li><a class="dropdown-item" data-view="timeGridDay">Día</a></li>
+              <li><a class="dropdown-item" data-view="listWeek">Lista</a></li>
+            </ul>
+          </div>
+          
+          <h1 id="calendar-title"></h1>
+        <div class="container-fluid h-100">
+            <div class="row flex-grow-1 h-100">
+                <div class="col-12 h-100">
+                    <div id="calendar"></div>
+                </div>
+    
+            </div>
+        </div>
+        
+        <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdrop" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-white">
+                        <h5 class="modal-title" id="titulo"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <form id="formulario">
+                        <div class="modal-body">
+                            <div id="alert" class="alert alert-danger" style="display: none;"></div>
+                            <div class="form-floating mb-3">
+                                <input type="hidden" id="id" name="id">
+                                <input type="hidden" id="dateReg" name="dateReg">
+                                <input type="text" class="form-control" id="title" placeholder="Evento">
+                                <label for="title" class="form-label">Evento:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="contractor" placeholder="Contratante">
+                                <label for="contractor" class="form-label">Contratante:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="dni" placeholder="documento de identidad">
+                                <label for="dni" class="form-label">Documento de identidad:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" class="form-control" id="start" placeholder="Fecha y hora">
+                                <label for="start" class="form-label">Fecha y Hora:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="timeContracted" aria-label="Tiempo contratado">
+                                  <option value="00:30:00" selected>30 min</option>
+                                  <option value="00:45:00">45 min</option>
+                                  <option value="01:10:00">1 hora</option>
+                                  <option value="01:15:00">1 hora y 15 min</option>
+                                  <option value="01:30:00">1 hora y 30 min</option>
+                                  <option value="01:45:00">1 hora y 45 min</option>
+                                  <option value="02:00:00">2 horas</option>
+                                  <option value="03:00:00">3 horas</option>
+                                </select>
+                                <label for="timeContracted">Tiempo contratado:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="address" placeholder="Dirección">
+                                <label for="address" class="form-label">Dirección:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="mobility" aria-label="Movilidad">
+                                    <option value="Mariachi" selected>Mariachi</option>
+                                    <option value="Contratante">Contratante</option>
+                                </select>
+                                <label for="mobility">Movilidad a cargo de:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="members" aria-label="Cantidad de Integrantes">
+                                  <option value="5" selected>5</option>
+                                  <option value="4">4</option>
+                                  <option value="6">6</option>
+                                  <option value="7">7</option>
+                                  <option value="8">8</option>
+                                  <option value="9">9</option>
+                                  <option value="10">10</option>
+                                  <option value="11">11</option>
+                                </select>
+                                <label for="members">Cantidad de Integrantes:</label>
+                            </div>
+                            <div class="mb-3 row align-items-center">
+                                <div class="col-auto">
+                                    <label for="totalAmount" class="col-form-label">Monto Total</label>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group">
+                                        <span class="input-group-text">S/.</span>
+                                        <input type="number" class="form-control" id="totalAmount" aria-label="Monto Total">
+                                        <span class="input-group-text">.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row align-items-center">
+                                <div class="col-auto">
+                                    <label for="amountPaid" class="col-form-label">A cuenta:</label>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group">
+                                        <span class="input-group-text">S/.</span>
+                                        <input type="number" class="form-control" id="amountPaid" aria-label="Monto pagado">
+                                        <span class="input-group-text">.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row align-items-center">
+                                <div class="col-auto">
+                                    <label for="remainingAmount" class="col-form-label">Saldo:</label>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group">
+                                        <span class="input-group-text">S/.</span>
+                                        <input type="number" class="form-control" id="remainingAmount" aria-label="Monto restante" readonly >
+                                        <span class="input-group-text">.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Agrega las Observaciones" id="remark" style="height: 100px"></textarea>
+                                <label for="remark">Observaciones:</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-info" type="button" id="btnInvoice">Boleta</button>
+                            <button class="btn btn-warning" type="button" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-danger" id="btnDelete" type="button">Eliminar</button>
+                            <button class="btn btn-success" id="btnAction" type="submit">Registrar</button>
+                            <button class="btn btn-success" id="btnUpdate" type="button" style="display: none;">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
+
+    
 
     
     <script src="./js/index.global.min.js"></script>

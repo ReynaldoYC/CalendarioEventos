@@ -11,7 +11,9 @@ html, body {
 }
 #calendar {
     flex-grow: 1;
-    overflow: auto; 
+    /* overflow: auto;  */
+    min-height: 85vh;
+    min-width: 90vw;
     height: 100%;
     
 }
@@ -127,8 +129,8 @@ html, body {
     font-size: 1.5rem;
 }
 #invoiceRemark{
-    margin: 0; /* Elimina el margen entre párrafos */
-    padding: 0; /* Elimina el padding entre párrafos */
-    line-height: 1; /* Ajusta la altura de la línea */
+    margin: 0; 
+    padding: 0; 
+    line-height: 1; 
     letter-spacing: 0; 
 }
