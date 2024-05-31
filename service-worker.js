@@ -32,7 +32,7 @@ self.addEventListener('fetch', (event) => {
       }
 
       return fetch(event.request).then((networkResponse) => {
-        return caches.open('v2').then((cache) => {
+        return caches.open('v1').then((cache) => {
           cache.put(event.request, networkResponse.clone()); // Almacena la respuesta en el caché
           return networkResponse; // Devuelve la respuesta original
         });
