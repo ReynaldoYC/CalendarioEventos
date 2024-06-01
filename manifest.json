@@ -1,6 +1,6 @@
 {
     "name": "Calendario Eventos",
-    "short_name": "Eventos",
+    "short_name": "Cal Event",
     "start_url": "/index.html",
     "display": "standalone",
     "background_color": "#ffffff",
