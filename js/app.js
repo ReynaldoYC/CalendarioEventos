@@ -149,7 +149,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             amountPaid: eventData.amountPaid,
             remainingAmount: eventData.remainingAmount,
             remark: eventData.remark,
-            dateReg: eventData.dateReg
+            dateReg: eventData.dateReg,
+            color: "#349795"
           };
         });
         console.log('hola mundo');
