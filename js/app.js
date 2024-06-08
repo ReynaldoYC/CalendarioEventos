@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     slotMinTime: "06:00:00",
     slotMaxTime: "25:00:00",
     height: "100%",
+    scrollTime: "18:00:00",
     slotLabelFormat: {
       hour: "numeric",
       hour12: true,

@@ -13,6 +13,7 @@ self.addEventListener('install', (event) => {
         './js/es.global.min.js',
         './js/index.global.min.js',
         './js/',
+        './favicon.ico',
 
         // Agrega aquí otros recursos que quieras cachear
       ]);
