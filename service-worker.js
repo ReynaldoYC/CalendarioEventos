@@ -2,18 +2,17 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open('v1').then((cache) => {
       return cache.addAll([
-        '/',
-        '/index.html',
-        './css/style.css',
-        './css/bootstrap.min.css',
-        './js/app.js',
-        './js/auth.js',
-        './js/bootstrap.bundle.min.js',
-        './js/firebase.js',
-        './js/es.global.min.js',
-        './js/index.global.min.js',
-        './js/',
-        './favicon.ico',
+        '/CalendarioEventos/',
+        '/CalendarioEventos/index.html',
+        '/CalendarioEventos/css/style.css',
+        '/CalendarioEventos/css/bootstrap.min.css',
+        '/CalendarioEventos/js/app.js',
+        '/CalendarioEventos/js/auth.js',
+        '/CalendarioEventos/js/bootstrap.bundle.min.js',
+        '/CalendarioEventos/js/firebase.js',
+        '/CalendarioEventos/js/es.global.min.js',
+        '/CalendarioEventos/js/index.global.min.js',
+        '/CalendarioEventos/favicon.ico',
 
         // Agrega aquí otros recursos que quieras cachear
       ]);
